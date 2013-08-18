@@ -1,0 +1,12 @@
+namethatmob:
+  # The words you want to blacklist
+  blacklisted-words:
+  - fagget
+  - fuck
+  
+  # The amount of letters you want limited in name tag
+  character-limit: 16
+  
+currency:
+  vault-enable: false
+  currency-cost-per-nametag: 500

@@ -1,0 +1,8 @@
+name: NameThatMob
+main: net.bigbadcraft.namethatmob.NameThatMob
+version: 2.0
+commands:
+  namemob:
+    description: Provides you with nametag with current argument.
+    permission: namethatmob.use
+    permission-message: You do not have <permission>
