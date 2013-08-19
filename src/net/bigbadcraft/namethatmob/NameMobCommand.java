@@ -10,13 +10,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-// type command to name mob
-// then tell user to hit the mob
-// then apply name
-
-// save argument in list
-// and apply the thing in list
-
 public class NameMobCommand implements CommandExecutor {
 	
 	public static HashMap<String, String> mobName = new HashMap<String, String>();
@@ -43,6 +36,11 @@ public class NameMobCommand implements CommandExecutor {
 		
 		if (args.length >= 1) {
 			
+			if (args[0].equalsIgnoreCase("list"))
+				sender.sendMessage("" + getWords());
+			else if (args[0].equalsIgnoreCase("list2"))
+				sender.sendMessage(getWords().toString());
+			
 			if (args[0].equalsIgnoreCase("price")) {
 				sender.sendMessage(ChatColor.GREEN + "Cost to use: $" + getPrice());
 			}
@@ -60,24 +58,16 @@ public class NameMobCommand implements CommandExecutor {
 		String message = StringUtils.join(args, ' ', 0, args.length);
 		message = ChatColor.translateAlternateColorCodes('&', message);
 		
-		// Fix these if statements
-		if (!hasInsufficientFunds(sender.getName())) {
+		if (!hasInsufficientFunds(sender.getName()) && !containsWords(sender, getWords(), args) && underCharLimit(args)) {
 			tellSender(sender, message);
-		} else {
+		} else if (hasInsufficientFunds(sender.getName())) {
 			sender.sendMessage(ChatColor.RED + "You need $" + getPrice() + " to use this.");
-		}
-		
-		if (!containsWords(sender, getWords(), args)) {
-			tellSender(sender, message);
-		} else {
+		} else if (containsWords(sender, getWords(), args)) {
+			sender.sendMessage(ChatColor.RED + "Your name cannot contain the following words:");
 			for (String words : getWords()) {
-				sender.sendMessage(ChatColor.RED + "Your name cannot contain the following " + words);
+				sender.sendMessage(ChatColor.RED + "- " + words);
 			}
-		}
-		
-		if (underCharLimit(args)) {
-			tellSender(sender, message);
-		} else {
+		} else if (!underCharLimit(args)) {
 			sender.sendMessage(ChatColor.RED + "Your name must be under " + getCharLimit() + " characters.");
 		}
 		
@@ -93,11 +83,7 @@ public class NameMobCommand implements CommandExecutor {
 	
 	private boolean containsWords(CommandSender sender, List<String> words, String[] args) {
 		String message = StringUtils.join(args, ' ', 0, args.length);
-		sender.sendMessage(ChatColor.RED + "Your name cannot contain the following words:");
-		for (String s : words) {
-			return message.contains(ChatColor.RED + "- " + s);
-		}
-		return false;
+		return getWords().contains(message);
 	}
 	
 	private boolean underCharLimit(String[] args) {
@@ -115,7 +101,7 @@ public class NameMobCommand implements CommandExecutor {
 	
 	private void tellSender(CommandSender sender, String message) {
 		mobName.put(sender.getName(), message);
-		sender.sendMessage(ChatColor.GREEN + "Stored '" + message + ChatColor.GREEN + "', now hit your living entity!");
+		sender.sendMessage(ChatColor.GREEN + "Stored '" + message + ChatColor.GREEN + "', now right click your mob.");
 	}
 	
 	private List<String> getWords() {

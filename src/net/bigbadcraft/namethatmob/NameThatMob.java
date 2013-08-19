@@ -42,16 +42,12 @@ public class NameThatMob extends JavaPlugin {
 		getCommand("namemob").setExecutor(new NameMobCommand());
 	}
 
-	public void onDisable() {
-	}
-
 	private void createConfig() {
 		this.file = new File(getDataFolder(), "config.yml");
 
 		if (!this.file.exists())
 			try {
-				getLogger().warning(
-						"Configuration file doesn't exist, creating one..");
+				getLogger().warning("Configuration file doesn't exist, creating one..");
 				this.file.createNewFile();
 				getLogger().info("Configuration file successfully created.");
 			} catch (IOException ex) {

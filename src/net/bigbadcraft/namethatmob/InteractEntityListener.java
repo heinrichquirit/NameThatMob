@@ -13,9 +13,6 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 public class InteractEntityListener implements Listener {
 	
-	// Not sure if comparing with instanceof keyword for monsters/animals  is 
-	// less efficient than comparing the object with a set of entitytypes, oh well.
-	
 	private Set<EntityType> animals;
 	private Set<EntityType> monsters;
 	
@@ -29,13 +26,16 @@ public class InteractEntityListener implements Listener {
 	@EventHandler
 	public void onEntityInteract(PlayerInteractEntityEvent event) {
 		final Player player = event.getPlayer();
-		
 		if (isAnimalOrMonster(event) && isInList(player.getName())) {
 			LivingEntity entity = (LivingEntity) event.getRightClicked();
-			entity.setCustomName(NameMobCommand.mobName.get(player.getName()));
-			entity.setCustomNameVisible(true);
-			NameThatMob.economy.withdrawPlayer(player.getName(), Math.round(NameThatMob.configuredValue));
-			player.sendMessage(ChatColor.GREEN + "[NameThatMob] $" + Math.round(NameThatMob.configuredValue) + " has been taken from your account.");
+			if (!entity.getCustomName().equals(NameMobCommand.mobName.get(player.getName()))) {
+				entity.setCustomName(NameMobCommand.mobName.get(player.getName()));
+				entity.setCustomNameVisible(true);
+				NameThatMob.economy.withdrawPlayer(player.getName(), Math.round(NameThatMob.configuredValue));
+				player.sendMessage(ChatColor.GREEN + "[NameThatMob] $" + Math.round(NameThatMob.configuredValue) + " has been taken from your account.");
+			} else {
+				player.sendMessage(ChatColor.RED + "That mob already has that name!");
+			}
 		}
 	}
 	
