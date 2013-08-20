@@ -28,11 +28,12 @@ public class InteractEntityListener implements Listener {
 		final Player player = event.getPlayer();
 		if (isAnimalOrMonster(event) && isInList(player.getName())) {
 			LivingEntity entity = (LivingEntity) event.getRightClicked();
+			if (entity.getCustomName() == null || entity.getCustomName().equals("")) entity.setCustomName(" ");
 			if (!entity.getCustomName().equals(NameMobCommand.mobName.get(player.getName()))) {
 				entity.setCustomName(NameMobCommand.mobName.get(player.getName()));
 				entity.setCustomNameVisible(true);
-				NameThatMob.economy.withdrawPlayer(player.getName(), Math.round(NameThatMob.configuredValue));
-				player.sendMessage(ChatColor.GREEN + "[NameThatMob] $" + Math.round(NameThatMob.configuredValue) + " has been taken from your account.");
+				withdrawPlayer(player);
+				NameMobCommand.mobName.remove(player.getName());
 			} else {
 				player.sendMessage(ChatColor.RED + "That mob already has that name!");
 			}
@@ -69,6 +70,11 @@ public class InteractEntityListener implements Listener {
 		monsters.add(EntityType.WITCH);
 		monsters.add(EntityType.WITHER);
 		monsters.add(EntityType.ZOMBIE);
+	}
+	
+	private void withdrawPlayer(Player player) {
+		NameThatMob.economy.withdrawPlayer(player.getName(), Math.round(NameThatMob.configuredValue));
+		player.sendMessage(ChatColor.GREEN + "[NameThatMob] $" + Math.round(NameThatMob.configuredValue) + " has been taken from your account.");
 	}
 	
 	private boolean isAnimalOrMonster(PlayerInteractEntityEvent event) {

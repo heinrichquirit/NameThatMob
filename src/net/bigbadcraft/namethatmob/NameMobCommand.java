@@ -35,12 +35,6 @@ public class NameMobCommand implements CommandExecutor {
 		}
 		
 		if (args.length >= 1) {
-			
-			if (args[0].equalsIgnoreCase("list"))
-				sender.sendMessage("" + getWords());
-			else if (args[0].equalsIgnoreCase("list2"))
-				sender.sendMessage(getWords().toString());
-			
 			if (args[0].equalsIgnoreCase("price")) {
 				sender.sendMessage(ChatColor.GREEN + "Cost to use: $" + getPrice());
 			}
