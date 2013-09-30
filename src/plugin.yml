@@ -1,8 +1,9 @@
 name: NameThatMob
-main: net.bigbadcraft.namethatmob.NameThatMob
-version: 2.0
+main: main.java.net.bigbadcraft.namethatmob.MobPlugin
+version: 3.0
+soft-depend: [Vault]
 commands:
   namemob:
-    description: Provides you with nametag with current argument.
+    description: Main command
     permission: namethatmob.use
-    permission-message: You do not have <permission>
+    permission-message: §cYou do not have <permission>
