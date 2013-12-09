@@ -1,21 +1,19 @@
 package main.java.net.bigbadcraft.namethatmob.util;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.logging.Level;
+
 import main.java.net.bigbadcraft.namethatmob.MobPlugin;
-import org.apache.commons.lang.StringUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.plugin.Plugin;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.logging.Level;
 
 /**
  * User: Heinrich Quirit
@@ -61,8 +59,7 @@ public class Methods {
         return entity.getCustomName() == null || entity.getCustomName().equals("");
     }
 
-    public boolean isAnimOrMons(PlayerInteractEntityEvent e) {
-        EntityType type = e.getRightClicked().getType();
+    public boolean isAnimOrMons(EntityType type) {
         return monsters.contains(type) || animals.contains(type);
     }
 
